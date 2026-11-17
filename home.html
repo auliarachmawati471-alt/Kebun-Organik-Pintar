@@ -1,0 +1,1016 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kebun Pintar Organik | Desa Wisata Kandri</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7faf5;
+            color: #243b2b;
+            line-height: 1.65;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGASI */
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5eee3;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 80px;
+            gap: 20px;
+        }
+
+        .brand {
+            color: #25683b;
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .brand small {
+            display: block;
+            font-size: 11px;
+            font-weight: normal;
+            letter-spacing: 1px;
+            color: #718273;
+            margin-top: 5px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #344d3b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #2c9052;
+        }
+
+        .nav-button {
+            background: #267544;
+            color: white !important;
+            padding: 11px 18px;
+            border-radius: 9px;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(
+                125deg,
+                #e6f3df 0%,
+                #f4faee 55%,
+                #d7ebd0 100%
+            );
+            padding: 85px 0;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #d3e9cc;
+            color: #23633a;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(37px, 5vw, 60px);
+            line-height: 1.12;
+            letter-spacing: -1.5px;
+            margin: 23px 0;
+            color: #1d5030;
+        }
+
+        .hero h1 span {
+            color: #379b57;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #58705d;
+            max-width: 490px;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .button-primary {
+            background: #257344;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: #194f30;
+            transform: translateY(-2px);
+        }
+
+        .button-outline {
+            color: #257344;
+            border: 1px solid #91b99b;
+            margin-left: 10px;
+        }
+
+        .button-outline:hover {
+            background: #e3f0e1;
+        }
+
+        .hero-visual {
+            min-height: 380px;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(
+                140deg,
+                #398f51,
+                #164b30
+            );
+            box-shadow: 0 25px 50px rgba(31, 90, 47, 0.17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            object-fit: cover;
+        }
+
+        .hero-placeholder {
+            font-size: 105px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.94);
+            border-radius: 14px;
+            padding: 15px 20px;
+            z-index: 2;
+        }
+
+        .hero-caption strong {
+            color: #22653c;
+            display: block;
+        }
+
+        .hero-caption span {
+            color: #667b6a;
+            font-size: 13px;
+        }
+
+        /* KEUNGGULAN */
+
+        .features {
+            padding: 35px 0;
+            background: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 15px;
+        }
+
+        .feature-icon {
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: #e7f3e4;
+            border-radius: 14px;
+            font-size: 24px;
+        }
+
+        .feature h3 {
+            margin: 0 0 5px;
+            font-size: 15px;
+        }
+
+        .feature p {
+            margin: 0;
+            color: #758277;
+            font-size: 13px;
+        }
+
+        /* BAGIAN UMUM */
+
+        .section {
+            padding: 85px 0;
+        }
+
+        .section-label {
+            color: #328b50;
+            font-weight: bold;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: clamp(29px, 4vw, 40px);
+            line-height: 1.25;
+            color: #1e5030;
+            margin: 12px 0 17px;
+        }
+
+        .section-description {
+            color: #6c7c70;
+            max-width: 650px;
+        }
+
+        /* TENTANG KAMI */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .about-visual {
+            min-height: 350px;
+            background: linear-gradient(
+                145deg,
+                #d8eecf,
+                #88c792
+            );
+            border-radius: 26px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 35px;
+        }
+
+        .about-visual .big-icon {
+            font-size: 110px;
+        }
+
+        .about-visual strong {
+            color: #205536;
+            font-size: 22px;
+        }
+
+        .about-visual p {
+            color: #3c6b47;
+            margin-bottom: 0;
+        }
+
+        .about-text p {
+            color: #5d7063;
+            margin-bottom: 17px;
+        }
+
+        .about-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .about-tags span {
+            background: #e8f3e5;
+            color: #2c7445;
+            padding: 8px 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* KATALOG PRODUK */
+
+        .products-section {
+            background: #edf5e9;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading .section-description {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .produk-container {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+            );
+            gap: 25px;
+        }
+
+        .produk-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(34, 74, 41, 0.07);
+            transition: transform 0.2s;
+        }
+
+        .produk-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .produk-gambar {
+            width: 100%;
+            height: 240px;
+            background: #dcebd6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .produk-gambar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gambar-kosong {
+            color: #66856d;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .gambar-kosong span {
+            display: block;
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .produk-info {
+            padding: 24px;
+        }
+
+        .produk-info h3 {
+            color: #205534;
+            font-size: 21px;
+            margin: 0 0 12px;
+        }
+
+        .produk-description {
+            color: #718073;
+            font-size: 14px;
+            min-height: 45px;
+        }
+
+        .produk-price {
+            color: #287c46;
+            font-size: 21px;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+
+        .produk-price small {
+            font-size: 13px;
+            color: #7a8b7e;
+            font-weight: normal;
+        }
+
+        .tombol-order {
+            display: block;
+            padding: 13px 16px;
+            text-align: center;
+            background: #257344;
+            color: white;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .tombol-order:hover {
+            background: #194f30;
+        }
+
+        .empty-products {
+            grid-column: 1 / -1;
+            padding: 45px;
+            background: white;
+            text-align: center;
+            border-radius: 15px;
+            color: #708175;
+        }
+
+        /* CARA PESAN */
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            background: white;
+            border: 1px solid #e4ede2;
+            border-radius: 16px;
+            padding: 27px;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e2f2df;
+            color: #277143;
+            font-weight: bold;
+        }
+
+        .step-card h3 {
+            color: #245b38;
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            color: #758277;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #19452d;
+            color: white;
+            padding: 50px 0 25px;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        footer h3 {
+            margin-top: 0;
+        }
+
+        footer p {
+            color: #b9d2bf;
+            font-size: 14px;
+            max-width: 440px;
+        }
+
+        .footer-links a {
+            color: #d5e8d8;
+            margin-left: 18px;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #3e674c;
+            text-align: center;
+            color: #b9d2bf;
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+            .hero-grid,
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 55px 0;
+            }
+
+            .hero-visual {
+                min-height: 320px;
+            }
+
+            .feature-grid,
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .navbar-inner {
+                flex-direction: column;
+                padding: 18px 0;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .hero h1 {
+                font-size: 37px;
+            }
+
+            .button-outline {
+                margin: 10px 0 0;
+            }
+
+            .hero-visual {
+                min-height: 280px;
+            }
+
+            .footer-links a {
+                display: inline-block;
+                margin: 0 15px 10px 0;
+            }
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+
+    <!-- NAVIGASI -->
+    <header class="navbar">
+        <div class="container navbar-inner">
+
+            <a href="#beranda" class="brand">
+                Kebun Pintar Organik
+                <small>DESA WISATA KANDRI</small>
+            </a>
+
+            <nav aria-label="Navigasi utama">
+                <a href="#beranda">Beranda</a>
+                <a href="#tentang">Tentang Kami</a>
+                <a href="#produk">Produk</a>
+                <a href="#cara-pesan">Cara Pesan</a>
+
+{% if request.user.is_authenticated and request.user.is_staff %}
+
+    <a href="{% url 'admin_dashboard' %}">
+        Dashboard Penjual
+    </a>
+
+{% else %}
+
+    <a href="{% url 'admin:login' %}?next={% url 'admin_dashboard' %}">
+        Login Penjual
+    </a>
+
+{% endif %}
+
+                <a href="#produk" class="nav-button">
+                    Belanja Sekarang
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- BERANDA -->
+        <section id="beranda" class="hero">
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+
+                    <span class="eyebrow">
+                        KEBUN PINTAR ORGANIK
+                    </span>
+
+                    <h1>
+                        Segar dari Kebun,
+                        <span>untuk Meja Makan Anda.</span>
+                    </h1>
+
+                    <p>
+                        Selamat datang di Kebun Pintar Organik,
+                        usaha budidaya sayuran yang berada
+                        di Desa Wisata Kandri.
+                        Kenali kebun kami dan temukan produk
+                        yang tersedia untuk dipesan.
+                    </p>
+
+                    <div>
+                        <a href="#produk"
+                           class="button button-primary">
+                            Jelajahi Produk
+                        </a>
+
+                        <a href="#tentang"
+                           class="button button-outline">
+                            Tentang Kami
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+
+                    {% for product in products %}
+                        {% if forloop.first %}
+                            {% if product.image %}
+                                <img
+                                    src="{{ product.image.url }}"
+                                    alt="Produk {{ product.name }}"
+                                >
+                            {% else %}
+                                <div class="hero-placeholder">
+                                    🌿
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% empty %}
+                        <div class="hero-placeholder">
+                            🌿
+                        </div>
+                    {% endfor %}
+
+                    <div class="hero-caption">
+                        <strong>
+                            Kebun Pintar Organik
+                        </strong>
+                        <span>
+                            Budidaya sayuran di Desa Wisata Kandri
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- KEUNGGULAN -->
+        <section class="features">
+            <div class="container feature-grid">
+
+                <div class="feature">
+                    <div class="feature-icon">🌱</div>
+                    <div>
+                        <h3>Dari Kebun Kami</h3>
+                        <p>
+                            Produk hasil usaha budidaya
+                            sayuran di Desa Wisata Kandri.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🥬</div>
+                    <div>
+                        <h3>Informasi Produk</h3>
+                        <p>
+                            Lihat deskripsi dan harga
+                            sebelum melakukan pemesanan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🛒</div>
+                    <div>
+                        <h3>Pemesanan Online</h3>
+                        <p>
+                            Pilih produk dan lanjutkan
+                            pemesanan melalui website.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TENTANG KAMI -->
+        <section id="tentang" class="section">
+            <div class="container about-grid">
+
+                <div class="about-visual">
+                    <div class="big-icon">🌿</div>
+
+                    <strong>Kebun Pintar Organik</strong>
+
+                    <p>
+                        Desa Wisata Kandri
+                    </p>
+                </div>
+
+                <div class="about-text">
+
+                    <span class="section-label">
+                        Mengenal Usaha Kami
+                    </span>
+
+                    <h2 class="section-title">
+                        Tentang Kebun Pintar Organik
+                    </h2>
+
+                    <p>
+                        Kebun Pintar Organik merupakan usaha
+                        yang bergerak di bidang budidaya
+                        sayuran dan berlokasi di
+                        Desa Wisata Kandri.
+                    </p>
+
+                    <p>
+                        Melalui website ini, kami memperkenalkan
+                        kegiatan usaha dan menyediakan informasi
+                        mengenai produk yang dapat dipesan
+                        oleh pelanggan.
+                    </p>
+
+                    <p>
+                        Kami ingin mempermudah pelanggan untuk
+                        mengenal produk kebun, melihat harga,
+                        serta melakukan pemesanan melalui
+                        satu layanan yang mudah digunakan.
+                    </p>
+
+                    <div class="about-tags">
+                        <span>Budidaya Sayuran</span>
+                        <span>Desa Wisata Kandri</span>
+                        <span>Pemesanan Online</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- KATALOG PRODUK -->
+        <section id="produk" class="section products-section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        Katalog Kebun
+                    </span>
+
+                    <h2 class="section-title">
+                        Pilihan Produk Kami
+                    </h2>
+
+                    <p class="section-description">
+                        Temukan produk yang tersedia,
+                        lihat informasi harganya,
+                        lalu pilih produk yang ingin dipesan.
+                    </p>
+
+                </div>
+
+                <div class="produk-container">
+
+                    {% for product in products %}
+
+                        <article class="produk-card">
+
+                            <div class="produk-gambar">
+
+                                {% if product.image %}
+                                    <img
+                                        src="{{ product.image.url }}"
+                                        alt="{{ product.name }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div class="gambar-kosong">
+                                        <span>🥬</span>
+                                        Foto belum tersedia
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="produk-info">
+
+                                <h3>{{ product.name }}</h3>
+
+                                <p class="produk-description">
+                                    {{ product.description }}
+                                </p>
+
+                                <div class="produk-price">
+                                    Rp{{ product.price|floatformat:"0" }}
+
+                                    <small>
+                                        / {{ product.unit }}
+                                    </small>
+                                </div>
+
+                                <a
+                                    href="{% url 'checkout' product.id %}"
+                                    class="tombol-order"
+                                >
+                                    Pesan Sekarang
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% empty %}
+
+                        <div class="empty-products">
+                            <h3>Belum Ada Produk</h3>
+                            <p>
+                                Produk belum tersedia
+                                untuk ditampilkan saat ini.
+                            </p>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CARA PESAN -->
+        <section id="cara-pesan" class="section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        Panduan Pemesanan
+                    </span>
+
+                    <h2 class="section-title">
+                        Cara Memesan Produk
+                    </h2>
+
+                    <p class="section-description">
+                        Pemesanan dapat dilakukan
+                        melalui halaman produk
+                        di website ini.
+                    </p>
+
+                </div>
+
+                <div class="steps-grid">
+
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+
+                        <h3>Pilih Produk</h3>
+
+                        <p>
+                            Buka katalog dan pilih
+                            produk yang ingin dipesan.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+
+                        <h3>Isi Pemesanan</h3>
+
+                        <p>
+                            Klik tombol Pesan Sekarang
+                            dan lengkapi data pesanan
+                            pada halaman berikutnya.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+
+                        <h3>Proses Pesanan</h3>
+
+                        <p>
+                            Pesanan yang masuk akan
+                            diproses melalui sistem
+                            pengelolaan pesanan.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div>
+                    <h3>Kebun Pintar Organik</h3>
+
+                    <p>
+                        Usaha budidaya sayuran
+                        di Desa Wisata Kandri.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <a href="#beranda">Beranda</a>
+                    <a href="#tentang">Tentang Kami</a>
+                    <a href="#produk">Produk</a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                &copy; {% now "Y" %}
+                Kebun Pintar Organik.
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>

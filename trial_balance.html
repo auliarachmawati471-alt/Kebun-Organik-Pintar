@@ -1,0 +1,152 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block title %}Neraca Saldo | Kebun Pintar Organik{% endblock %}
+
+{% block content %}
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<style>
+    .trial-balance-container {
+        max-width: 1100px;
+        margin: 20px auto;
+    }
+
+    .trial-balance-container h1 {
+        margin-bottom: 20px;
+    }
+
+    .filter-form {
+        margin-bottom: 25px;
+    }
+
+    .filter-form select,
+    .filter-form button {
+        padding: 8px 12px;
+        margin-left: 8px;
+    }
+
+    .trial-balance-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .trial-balance-table th,
+    .trial-balance-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .trial-balance-table th {
+        background-color: #417690;
+        color: white;
+    }
+
+    .number {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .total-row {
+        font-weight: bold;
+        background-color: #e9eef2;
+    }
+
+    .status-message {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="trial-balance-container">
+
+    <h1>Neraca Saldo</h1>
+
+    <form method="get" class="filter-form">
+        <label for="period">
+            <strong>Periode Akuntansi:</strong>
+        </label>
+
+        <select name="period" id="period">
+            {% for period in periods %}
+                <option value="{{ period.id }}"
+                    {% if selected_period.id == period.id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ period.period_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">
+            Tampilkan Neraca Saldo
+        </button>
+    </form>
+
+    {% if selected_period %}
+
+        <h2>Kebun Pintar Organik</h2>
+        <h3>Neraca Saldo</h3>
+        <p>Periode: {{ selected_period.period_name }}</p>
+
+        <table class="trial-balance-table">
+            <thead>
+                <tr>
+                    <th>Kode Akun</th>
+                    <th>Nama Akun</th>
+                    <th>Debit (Rp)</th>
+                    <th>Kredit (Rp)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row.account.account_code }}</td>
+                    <td>{{ row.account.account_name }}</td>
+                    <td class="number">
+                        {{ row.debit|floatformat:"2g" }}
+                    </td>
+                    <td class="number">
+                        {{ row.credit|floatformat:"2g" }}
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr class="total-row">
+                    <td colspan="2">TOTAL</td>
+
+                    <td class="number">
+                        {{ total_debit|floatformat:"2g" }}
+                    </td>
+
+                    <td class="number">
+                        {{ total_credit|floatformat:"2g" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="status-message">
+            {% if is_balanced %}
+                <p style="color: green;">
+                    Neraca Saldo Seimbang
+                </p>
+            {% else %}
+                <p style="color: red;">
+                    Neraca Saldo Tidak Seimbang
+                </p>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p>Belum ada periode akuntansi.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

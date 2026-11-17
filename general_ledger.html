@@ -1,0 +1,82 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<h1>Buku Besar</h1>
+
+<form method="GET">
+    <div style="margin-bottom: 15px;">
+        <label><strong>Pilih Akun:</strong></label>
+        <select name="account" required>
+            <option value="">-- Pilih Akun --</option>
+            {% for account in accounts %}
+                <option value="{{ account.id }}"
+                    {% if selected_account and selected_account.id == account.id %}selected{% endif %}>
+                    {{ account.account_code }} - {{ account.account_name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label><strong>Periode Akuntansi:</strong></label>
+        <select name="period" required>
+            <option value="">-- Pilih Periode --</option>
+            {% for period in periods %}
+                <option value="{{ period.id }}"
+                    {% if selected_period and selected_period.id == period.id %}selected{% endif %}>
+                    {{ period.period_name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit">Tampilkan Buku Besar</button>
+</form>
+
+<hr>
+
+{% if selected_account and selected_period %}
+
+    <h2>{{ selected_account.account_code }} - {{ selected_account.account_name }}</h2>
+    <p>Periode: {{ selected_period.period_name }}</p>
+
+    <table style="width: 100%; border-collapse: collapse;" border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>No. Jurnal</th>
+                <th>Keterangan</th>
+                <th>Debit</th>
+                <th>Kredit</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in ledger_rows %}
+                <tr>
+                    <td>{{ row.date|date:"d-m-Y" }}</td>
+                    <td>{{ row.entry_number }}</td>
+                    <td>{{ row.description }}</td>
+                    <td style="text-align: right;">{{ row.debit|floatformat:2 }}</td>
+                    <td style="text-align: right;">{{ row.credit|floatformat:2 }}</td>
+                    <td style="text-align: right;">{{ row.balance|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">
+                        Belum ada jurnal yang diposting untuk akun dan periode ini.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endif %}
+
+{% endblock %}

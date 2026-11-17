@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Kebun Pintar Organik</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            background: #eef7e9;
+            color: #263b2b;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #24633b;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #718273;
+            margin-bottom: 30px;
+        }
+
+        .product {
+            background: #edf7e9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .product h2 {
+            color: #28613b;
+            margin-top: 0;
+        }
+
+        .product p {
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccd9cc;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #36834b;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #286b3d;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d512e;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #286b3d;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            background: #ffecec;
+            padding: 12px;
+            border-radius: 8px;
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Checkout Pesanan</h1>
+    <p class="subtitle">Kebun Pintar Organik 🌱</p>
+
+    <div class="product">
+        <h2>{{ product.name }}</h2>
+
+        <p>
+            <strong>Harga:</strong>
+            Rp{{ product.price|floatformat:"0" }}
+        </p>
+
+        <p>
+            <strong>Satuan:</strong>
+            {{ product.unit }}
+        </p>
+    </div>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {{ form.checkout_token }}
+        {% if form.errors %}
+        <div id="error-summary" role="alert" tabindex="-1">
+            <h2>Periksa kembali pesanan</h2>
+            {{ form.non_field_errors }}
+            <ul>{% for field in form.visible_fields %}{% for error in field.errors %}<li><a href="#{{ field.id_for_label }}">{{ field.label }}: {{ error }}</a></li>{% endfor %}{% endfor %}</ul>
+        </div>
+        {% endif %}
+        {% for field in form.visible_fields %}
+            {{ field.label_tag }}{{ field }}{{ field.errors }}
+        {% endfor %}
+        <button type="submit">Konfirmasi Pesanan</button>
+    </form>
+    {% if form.errors %}<script>document.getElementById('error-summary').focus();</script>{% endif %}
+
+    <a href="/" class="back">
+        ← Kembali ke Produk
+    </a>
+
+</div>
+
+</body>
+</html>

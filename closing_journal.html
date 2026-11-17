@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Jurnal Penutup - Kebun Pintar Organik</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 16px;
+            background: #f4f7f4;
+            color: #243329;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            padding: 32px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #276749;
+            font-size: 26px;
+            margin: 0 0 10px;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            font-size: 21px;
+        }
+
+        .subtitle {
+            color: #65766a;
+            font-size: 14px;
+        }
+
+        .filter {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccd8ce;
+        }
+
+        button {
+            color: white;
+            background: #276749;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #205537;
+        }
+
+        .journal-card {
+            border: 1px solid #e0e9e1;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 18px;
+            background: #edf5ef;
+        }
+
+        .journal-number {
+            font-weight: bold;
+            color: #205b37;
+        }
+
+        .journal-date {
+            color: #65766a;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .status {
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #d5ebda;
+            color: #22643b;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 550px;
+        }
+
+        th, td {
+            padding: 13px;
+            border-bottom: 1px solid #e5ebe6;
+            text-align: left;
+        }
+
+        th {
+            background: #f7faf7;
+            color: #355540;
+            font-size: 13px;
+        }
+
+        .angka {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .journal-total {
+            background: #e7f2e9;
+            font-weight: bold;
+        }
+
+        .summary {
+            margin-top: 25px;
+            border-top: 2px solid #276749;
+            padding-top: 16px;
+        }
+
+        .summary h3 {
+            color: #276749;
+            margin-top: 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e7ebe7;
+        }
+
+        .summary-row strong {
+            white-space: nowrap;
+        }
+
+        .note {
+            background: #f0f6f1;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .warning {
+            background: #fff2df;
+            color: #805317;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6d7b70;
+            padding: 35px 15px;
+            background: #f7faf7;
+            border-radius: 8px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #276749;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 14px;
+            }
+
+            h1 {
+                font-size: 21px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .summary-row {
+                font-size: 13px;
+            }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .filter, .footer {
+                display: none;
+            }
+
+            .journal-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="report-header">
+            <h1>KEBUN PINTAR ORGANIK</h1>
+            <h2>Laporan Jurnal Penutup</h2>
+
+            <p class="subtitle">
+                Periode {{ periode.period_name }}
+                <br>
+                Per {{ periode.end_date|date:"d F Y" }}
+            </p>
+        </div>
+
+        <form method="get" class="filter">
+            <label for="periode">Pilih Periode:</label>
+
+            <select name="periode" id="periode">
+                {% for p in daftar_periode %}
+                    <option
+                        value="{{ p.id }}"
+                        {% if p.id == periode.id %}selected{% endif %}
+                    >
+                        {{ p.period_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Tampilkan</button>
+        </form>
+
+        {% for item in daftar_jurnal %}
+
+            <div class="journal-card">
+
+                <div class="journal-header">
+                    <div>
+                        <div class="journal-number">
+                            {{ item.jurnal.entry_number }}
+                        </div>
+
+                        <div class="journal-date">
+                            Tanggal:
+                            {{ item.jurnal.entry_date|date:"d F Y" }}
+                        </div>
+                    </div>
+
+                    <span class="status">POSTED</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Nama Akun</th>
+                                <th class="angka">Debit (Rp)</th>
+                                <th class="angka">Kredit (Rp)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for baris in item.baris %}
+                                <tr>
+                                    <td>
+                                        {{ baris.account.account_code }}
+                                    </td>
+
+                                    <td>
+                                        {{ baris.account.account_name }}
+                                    </td>
+
+                                    <td class="angka">
+                                        {{ baris.debit|floatformat:"2g" }}
+                                    </td>
+
+                                    <td class="angka">
+                                        {{ baris.credit|floatformat:"2g" }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            <tr class="journal-total">
+                                <td colspan="2">
+                                    TOTAL JURNAL
+                                </td>
+
+                                <td class="angka">
+                                    {{ item.total_debit|floatformat:"2g" }}
+                                </td>
+
+                                <td class="angka">
+                                    {{ item.total_kredit|floatformat:"2g" }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty">
+                Belum ada jurnal penutup berstatus
+                Posted untuk periode ini.
+            </div>
+
+        {% endfor %}
+
+        <div class="summary">
+            <h3>Ringkasan Jurnal Penutup</h3>
+
+            <div class="summary-row">
+                <span>Total Debit</span>
+                <strong>
+                    Rp{{ total_debit|floatformat:"2g" }}
+                </strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Total Kredit</span>
+                <strong>
+                    Rp{{ total_kredit|floatformat:"2g" }}
+                </strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Selisih Debit dan Kredit</span>
+                <strong>
+                    Rp{{ selisih|floatformat:"2g" }}
+                </strong>
+            </div>
+        </div>
+
+        {% if daftar_jurnal %}
+            {% if selisih == 0 %}
+                <div class="note">
+                    <strong>Jurnal Penutup Seimbang.</strong>
+                    Total debit sama dengan total kredit.
+                </div>
+            {% else %}
+                <div class="note warning">
+                    <strong>Perhatian:</strong>
+                    Jurnal Penutup belum seimbang.
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="note">
+            Laporan ini hanya menampilkan jurnal
+            penutup yang telah berstatus Posted.
+
+            Untuk periode November 2026,
+            penutupan dilakukan langsung ke akun modal.
+        </div>
+
+        <div class="footer">
+            <a href="{% url 'admin_dashboard' %}">
+                Kembali ke Dashboard Penjual
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

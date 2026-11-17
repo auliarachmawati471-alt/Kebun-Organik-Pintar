@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard Admin - Kebun Pintar Organik</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #eef7e9;
+            color: #263b2b;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        header {
+            background: #286b3d;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .card p {
+            color: #718273;
+            margin: 0 0 10px;
+        }
+
+        .card h2 {
+            color: #286b3d;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .table-box {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            margin-top: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #edf7e9;
+            color: #286b3d;
+        }
+
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .menu a {
+            background: white;
+            color: #286b3d;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background: #dcefd8;
+        }
+
+        .status {
+            color: #286b3d;
+            font-weight: bold;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+/* GRAFIK PENJUALAN */
+
+.chart-box {
+    overflow-x: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 13px;
+    margin-top: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+
+.chart-box h2 {
+    color: #286b3d;
+    margin-top: 0;
+}
+
+.chart-description {
+    color: #718273;
+    font-size: 14px;
+}
+
+.chart {
+    min-width: 430px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(65px, 1fr));
+    gap: 15px;
+    align-items: end;
+    height: 240px;
+    margin-top: 25px;
+}
+
+.chart-column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    min-width: 0;
+}
+
+.chart-value {
+    font-size: 11px;
+    color: #286b3d;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.bar-track {
+    width: 100%;
+    max-width: 65px;
+    height: 170px;
+    background: #edf7e9;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.bar {
+    width: 100%;
+    background: #2e9950;
+    border-radius: 8px 8px 0 0;
+    transition: height 0.3s;
+}
+
+.chart-label {
+    font-size: 12px;
+    color: #526456;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.monthly-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    min-width: 400px;
+}
+
+.monthly-table th,
+.monthly-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.monthly-table th {
+    color: #286b3d;
+    background: #edf7e9;
+}
+
+@media (max-width: 650px) {
+    .chart {
+        gap: 7px;
+    }
+
+    .chart-label {
+        font-size: 10px;
+    }
+
+    .chart-value {
+        font-size: 9px;
+    }
+}
+
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Dashboard Kebun Pintar Organik🌱</h1>
+        <p>Kebun Pintar Organik Desa Wisata Kandri</p>
+        <p>Selamat datang, {{ request.user.username }}!</p>
+    </header>
+
+    <div class="cards">
+
+        <div class="card">
+            <p>Total Pesanan</p>
+            <h2>{{ total_orders }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Menunggu Konfirmasi</p>
+            <h2>{{ waiting_orders }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Sedang Diproses</p>
+            <h2>{{ processing_orders }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Pesanan Selesai</p>
+            <h2>{{ completed_orders }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Produk Aktif</p>
+            <h2>{{ active_products }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Penjualan Selesai</p>
+            <h2>Rp{{ total_sales|floatformat:"0" }}</h2>
+        </div>
+
+    </div>
+
+    
+<h2>Menu Operasional</h2>
+
+<div class="menu">
+    <a href="/admin/core/order/">Kelola Pesanan</a>
+    <a href="/admin/core/product/">Kelola Produk</a>
+    <a href="/admin/core/journalentry/">Kelola Jurnal</a>
+    <a href="/admin/">Django Admin</a>
+    <a href="/">Lihat Website</a>
+</div>
+
+
+<h2 style="margin-top: 30px;">Siklus Akuntansi</h2>
+
+<div class="menu">
+    <a href="{% url 'general_ledger' %}">
+        Buku Besar
+    </a>
+
+    <a href="{% url 'trial_balance' %}">
+        Neraca Saldo
+    </a>
+
+    <a href="{% url 'adjusted_trial_balance' %}">
+        Neraca Saldo Setelah Penyesuaian
+    </a>
+
+    <a href="{% url 'worksheet' %}">
+        Neraca Lajur
+    </a>
+</div>
+
+<h2 style="margin-top: 30px;">Laporan Keuangan</h2>
+
+<div class="menu">
+    <a href="{% url 'laporan_laba_rugi' %}">
+        Laporan Laba Rugi
+    </a>
+
+    <a href="{% url 'laporan_perubahan_ekuitas' %}">
+        Laporan Perubahan Ekuitas
+    </a>
+
+    <a href="{% url 'laporan_neraca' %}">
+        Neraca / Posisi Keuangan
+    </a>
+</div>
+
+<h2 style="margin-top: 30px;">Penutupan Periode</h2>
+
+<div class="menu">
+    
+    <a href="{% url 'laporan_jurnal_penutup' %}">
+    Jurnal Penutup
+</a>
+
+
+    <a href="{% url 'neraca_saldo_setelah_penutupan' %}">
+        Neraca Saldo Setelah Penutupan
+    </a>
+</div>
+
+
+<div class="chart-box">
+
+    <h2>Grafik Penjualan Bulanan 📈</h2>
+
+    <p class="chart-description">
+        Ringkasan penjualan enam bulan terakhir.
+        Berdasarkan jurnal penjualan yang sudah diposting.
+    </p>
+
+    
+<div class="chart">
+
+    {% for month in monthly_sales %}
+
+    <div class="chart-column">
+
+        <div class="chart-value">
+            Rp{{ month.total|floatformat:"0" }}
+        </div>
+
+        <div class="bar-track">
+            <div class="bar"
+                 data-height="{{ month.bar_height }}">
+            </div>
+        </div>
+
+        <div class="chart-label">
+            {{ month.label }}
+        </div>
+
+    </div>
+
+    {% empty %}
+    <p>Belum ada data penjualan.</p>
+    {% endfor %}
+
+</div> <!-- Penutup .chart -->
+
+</div> <!-- Penutup .chart-box -->
+
+<div class="table-box">
+
+    <h2>Laporan Penjualan Bulanan</h2>
+
+    <p class="chart-description">
+        Laporan berdasarkan tanggal realisasi pada jurnal penjualan.
+    </p>
+
+    <table class="monthly-table">
+
+        <thead>
+            <tr>
+                <th>Bulan</th>
+                <th>Jumlah Jurnal Penjualan</th>
+                <th>Total Penjualan</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for month in monthly_sales %}
+
+            <tr>
+                <td>{{ month.label }}</td>
+                <td>{{ month.orders }}</td>
+                <td>
+                    Rp{{ month.total|floatformat:"0" }}
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    <div class="table-box">
+
+        <h2>Pesanan Terbaru</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Pembeli</th>
+                    <th>Produk</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for order in recent_orders %}
+
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>Rp{{ order.total_price|floatformat:"0" }}</td>
+                    <td class="status">
+                        {% if order.requires_reconciliation %}Perlu rekonsiliasi{% else %}{{ order.get_status_display }}{% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="6">Belum ada pesanan.</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<script>
+document.querySelectorAll('.bar[data-height]').forEach(bar => {
+    bar.style.height = bar.dataset.height + '%';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laporan Laba Rugi - Kebun Pintar Organik</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f4;
+            color: #243329;
+            margin: 0;
+            padding: 30px 16px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        h1, h2, p {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: #276749;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        .filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #276749;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e3e8e3;
+        }
+
+        th {
+            text-align: left;
+            background: #edf5ef;
+        }
+
+        td:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .subtotal {
+            font-weight: bold;
+            background: #f6f8f6;
+        }
+
+        .final {
+            font-weight: bold;
+            background: #e7f2e9;
+            border-top: 2px solid #276749;
+        }
+
+        .warning {
+            padding: 12px;
+            background: #fff3dc;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #276749;
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+{% for warning in hasil.warnings %}<p role="alert" class="audit-warning">{{ warning }}</p>{% endfor %}
+    <div class="container">
+
+        <h1>KEBUN PINTAR ORGANIK</h1>
+        <h2>Laporan Laba Rugi</h2>
+
+        <p class="subtitle">
+            Periode:
+            {{ periode.start_date|date:"d F Y" }}
+            sampai
+            {{ periode.end_date|date:"d F Y" }}
+        </p>
+
+        <form method="get" class="filter">
+            <label for="periode">Pilih Periode:</label>
+
+            <select name="periode" id="periode">
+                {% for p in daftar_periode %}
+                    <option
+                        value="{{ p.id }}"
+                        {% if p.id == periode.id %}selected{% endif %}
+                    >
+                        {{ p.period_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Tampilkan</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Keterangan</th>
+                    <th>Jumlah (Rp)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Penjualan Bersih</td>
+                    <td>
+                        {{ hasil.penjualan_bersih|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Harga Pokok Penjualan</td>
+                    <td>
+                        ({{ hasil.hpp|floatformat:"2g" }})
+                    </td>
+                </tr>
+
+                <tr class="subtotal">
+                    <td>Laba (Rugi) Kotor</td>
+                    <td>
+                        {{ hasil.laba_kotor|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="2">Beban Operasional</th>
+                </tr>
+
+                {% for nama, nilai in hasil.beban.items %}
+                    {% if nilai != 0 %}
+                        <tr>
+                            <td>{{ nama }}</td>
+                            <td>
+                                {{ nilai|floatformat:"2g" }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                <tr class="subtotal">
+                    <td>Total Beban Operasional</td>
+                    <td>
+                        {{ hasil.total_beban|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr class="final">
+                    <td>Laba (Rugi) Bersih</td>
+                    <td>
+                        {{ hasil.laba_bersih|floatformat:"2g" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if hasil.pembelian_neto_belum_dialokasi != 0 %}
+            <div class="warning">
+                Perhatian: masih terdapat pembelian neto
+                yang perlu direkonsiliasi sebesar Rp
+                {{ hasil.pembelian_neto_belum_dialokasi|floatformat:"2g" }}.
+            </div>
+        {% endif %}
+
+        <div class="footer">
+            <p>
+                Metode penilaian persediaan bayam:
+                FIFO periodik.
+            </p>
+
+            <a href="{% url 'admin_dashboard' %}">
+                Kembali ke Dashboard
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

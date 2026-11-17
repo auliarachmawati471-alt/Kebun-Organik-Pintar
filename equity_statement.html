@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Laporan Perubahan Ekuitas - Kebun Pintar Organik</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f4;
+            color: #243329;
+            margin: 0;
+            padding: 30px 16px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        h1, h2, .subtitle {
+            text-align: center;
+        }
+
+        h1 {
+            color: #276749;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        .filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #276749;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e3e8e3;
+        }
+
+        th {
+            text-align: left;
+            background: #edf5ef;
+        }
+
+        td:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .subtotal {
+            font-weight: bold;
+            background: #f6f8f6;
+        }
+
+        .final {
+            font-weight: bold;
+            background: #e7f2e9;
+            border-top: 2px solid #276749;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f4f7f4;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #276749;
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>KEBUN PINTAR ORGANIK</h1>
+        <h2>Laporan Perubahan Ekuitas</h2>
+
+        <p class="subtitle">
+            Periode:
+            {{ periode.start_date|date:"d F Y" }}
+            sampai
+            {{ periode.end_date|date:"d F Y" }}
+        </p>
+
+        <form method="get" class="filter">
+            <label for="periode">Pilih Periode:</label>
+
+            <select name="periode" id="periode">
+                {% for p in daftar_periode %}
+                    <option
+                        value="{{ p.id }}"
+                        {% if p.id == periode.id %}selected{% endif %}
+                    >
+                        {{ p.period_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Tampilkan</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Keterangan</th>
+                    <th>Jumlah (Rp)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Modal berdasarkan saldo pembukaan</td>
+                    <td>
+                        {{ hasil.modal_pembukaan|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Dikurangi: Prive bawaan</td>
+                    <td>
+                        ({{ hasil.prive_bawaan|floatformat:"2g" }})
+                    </td>
+                </tr>
+
+                <tr class="subtotal">
+                    <td>Ekuitas Awal Bersih</td>
+                    <td>
+                        {{ hasil.ekuitas_awal|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Penambahan / Pengurangan Modal Periode</td>
+                    <td>
+                        {{ hasil.perubahan_modal|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Laba (Rugi) Bersih Periode</td>
+                    <td>
+                        {{ hasil.laba_rugi|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Prive Periode Berjalan</td>
+                    <td>
+                        {{ hasil.prive_periode|floatformat:"2g" }}
+                    </td>
+                </tr>
+
+                <tr class="final">
+                    <td>Ekuitas Akhir</td>
+                    <td>
+                        {{ hasil.ekuitas_akhir|floatformat:"2g" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>Catatan:</strong>
+            Prive bawaan merupakan bagian dari saldo pembukaan,
+            bukan pengambilan pribadi baru selama November 2026.
+            Laba atau rugi diambil dari laporan laba rugi
+            pada periode yang dipilih.
+        </div>
+
+        <div class="footer">
+            <a href="{% url 'admin_dashboard' %}">
+                Kembali ke Dashboard
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

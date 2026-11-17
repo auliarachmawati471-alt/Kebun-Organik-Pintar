@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>NS Setelah Penutupan - Kebun Pintar Organik</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f4;
+            color: #243329;
+            margin: 0;
+            padding: 30px 16px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        h1, h2, .subtitle {
+            text-align: center;
+        }
+
+        h1 {
+            color: #276749;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        .filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #276749;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e3e8e3;
+        }
+
+        th {
+            background: #edf5ef;
+            text-align: left;
+        }
+
+        .angka {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .total {
+            background: #e7f2e9;
+            font-weight: bold;
+            border-top: 2px solid #276749;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f4f7f4;
+            border-radius: 6px;
+        }
+
+        .warning {
+            background: #fff3dc;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #276749;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .filter, .footer {
+                display: none;
+            }
+        }
+    </style>
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+
+<body>
+{% for warning in hasil.warnings %}<p role="alert" class="audit-warning">{{ warning }}</p>{% endfor %}
+    <div class="container">
+
+        <h1>KEBUN PINTAR ORGANIK</h1>
+        <h2>Neraca Saldo Setelah Penutupan</h2>
+
+        <p class="subtitle">
+            Per {{ periode.end_date|date:"d F Y" }}
+        </p>
+
+        <form method="get" class="filter">
+            <label for="periode">Pilih Periode:</label>
+
+            <select name="periode" id="periode">
+                {% for p in daftar_periode %}
+                    <option
+                        value="{{ p.id }}"
+                        {% if p.id == periode.id %}selected{% endif %}
+                    >
+                        {{ p.period_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Tampilkan</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode Akun</th>
+                    <th>Nama Akun</th>
+                    <th class="angka">Debit (Rp)</th>
+                    <th class="angka">Kredit (Rp)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for akun in hasil.daftar_akun %}
+                    <tr>
+                        <td>{{ akun.kode }}</td>
+                        <td>{{ akun.nama }}</td>
+                        <td class="angka">
+                            {{ akun.debit|floatformat:"2g" }}
+                        </td>
+                        <td class="angka">
+                            {{ akun.kredit|floatformat:"2g" }}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            Belum ada saldo untuk periode ini.
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                <tr class="total">
+                    <td colspan="2">TOTAL</td>
+                    <td class="angka">
+                        {{ hasil.total_debit|floatformat:"2g" }}
+                    </td>
+                    <td class="angka">
+                        {{ hasil.total_kredit|floatformat:"2g" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if hasil.selisih == 0 and hasil.is_final %}
+            <div class="note">
+                <strong>NSPP Seimbang.</strong>
+                Total debit sama dengan total kredit.
+            </div>
+        {% else %}
+            <div class="note warning">
+                <strong>NSPP Belum Seimbang.</strong>
+                Selisih:
+                Rp{{ hasil.selisih|floatformat:"2g" }}
+            </div>
+        {% endif %}
+
+        <div class="note">
+            Laporan ini menampilkan akun yang masih
+            bersaldo setelah jurnal penutup diposting.
+            Akun nominal yang sudah bersaldo nol
+            tidak ditampilkan.
+        </div>
+
+        <div class="footer">
+            <a href="{% url 'admin_dashboard' %}">
+                Kembali ke Dashboard
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

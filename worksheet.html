@@ -1,0 +1,202 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block title %}Neraca Lajur | Kebun Pintar Organik{% endblock %}
+
+{% block content %}
+<style>
+:focus-visible{outline:3px solid #2563eb;outline-offset:3px} .errorlist,.audit-warning{color:#8b1a1a;background:#fff4e5;padding:12px;border-radius:6px} input,select,button{max-width:100%;box-sizing:border-box} @media(max-width:650px){body{margin:0;padding:12px} .container{width:auto;max-width:100%;box-sizing:border-box} table{display:block;max-width:100%;overflow-x:auto} .filter,.filter-form{display:flex;flex-wrap:wrap;gap:8px}} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<style>
+    .worksheet-container {
+        width: 100%;
+        margin: 20px auto;
+    }
+
+    .worksheet-filter {
+        margin: 20px 0;
+    }
+
+    .worksheet-filter select,
+    .worksheet-filter button {
+        padding: 8px 12px;
+        margin-left: 8px;
+    }
+
+    .worksheet-scroll {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    .worksheet-table {
+        border-collapse: collapse;
+        min-width: 1750px;
+        width: 100%;
+        background: white;
+    }
+
+    .worksheet-table th,
+    .worksheet-table td {
+        border: 1px solid #ccc;
+        padding: 9px;
+        white-space: nowrap;
+    }
+
+    .worksheet-table thead th {
+        background: #417690;
+        color: white;
+        text-align: center;
+    }
+
+    .worksheet-table tbody tr:nth-child(even) {
+        background: #f5f7f9;
+    }
+
+    .worksheet-table .number {
+        text-align: right;
+    }
+
+    .worksheet-table .total-row {
+        background: #e0e9ef;
+        font-weight: bold;
+    }
+
+    .worksheet-table .result-row {
+        background: #fff5da;
+        font-weight: bold;
+    }
+
+    .worksheet-status {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="worksheet-container">
+
+    <h1>Neraca Lajur 10 Kolom</h1>
+
+    <form method="get" class="worksheet-filter">
+        <label for="period">
+            <strong>Periode Akuntansi:</strong>
+        </label>
+
+        <select name="period" id="period">
+            {% for period in periods %}
+                <option value="{{ period.id }}"
+                    {% if selected_period.id == period.id %}selected{% endif %}>
+                    {{ period.period_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Tampilkan Neraca Lajur</button>
+    </form>
+
+    {% if selected_period %}
+
+    <h2>Kebun Pintar Organik</h2>
+    <h3>Neraca Lajur</h3>
+    <p>Periode: {{ selected_period.period_name }}</p>
+
+    <div class="worksheet-scroll">
+
+        <table class="worksheet-table">
+
+            <thead>
+                <tr>
+                    <th rowspan="2">Kode Akun</th>
+                    <th rowspan="2">Nama Akun</th>
+                    <th colspan="2">Neraca Saldo</th>
+                    <th colspan="2">Penyesuaian</th>
+                    <th colspan="2">NS Setelah Penyesuaian</th>
+                    <th colspan="2">Laba Rugi</th>
+                    <th colspan="2">Neraca</th>
+                </tr>
+
+                <tr>
+                    <th>Debit</th><th>Kredit</th>
+                    <th>Debit</th><th>Kredit</th>
+                    <th>Debit</th><th>Kredit</th>
+                    <th>Debit</th><th>Kredit</th>
+                    <th>Debit</th><th>Kredit</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+
+                <tr {% if row.is_result %}class="result-row"{% endif %}>
+
+                    <td>{{ row.account_code }}</td>
+                    <td>{{ row.account_name }}</td>
+
+                    <td class="number">{{ row.ns_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ row.ns_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ row.adj_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ row.adj_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ row.nssp_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ row.nssp_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ row.lr_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ row.lr_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ row.neraca_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ row.neraca_kredit|floatformat:"2g" }}</td>
+
+                </tr>
+
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2">TOTAL</td>
+
+                    <td class="number">{{ totals.ns_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ totals.ns_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ totals.adj_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ totals.adj_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ totals.nssp_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ totals.nssp_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ totals.lr_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ totals.lr_kredit|floatformat:"2g" }}</td>
+
+                    <td class="number">{{ totals.neraca_debit|floatformat:"2g" }}</td>
+                    <td class="number">{{ totals.neraca_kredit|floatformat:"2g" }}</td>
+                </tr>
+            </tfoot>
+
+        </table>
+
+    </div>
+
+    <div class="worksheet-status">
+        {% if is_balanced %}
+            <p style="color: green;">Neraca Lajur Seimbang</p>
+        {% else %}
+            <p style="color: red;">Neraca Lajur Tidak Seimbang</p>
+        {% endif %}
+    </div>
+
+    <p>
+        <small>
+            Laba atau rugi yang ditampilkan masih bersifat sementara
+            sampai penyesuaian persediaan dan perhitungan HPP selesai.
+        </small>
+    </p>
+
+    {% else %}
+        <p>Belum ada periode akuntansi.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
