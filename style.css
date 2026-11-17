@@ -1,0 +1,157 @@
+
+/* Pengaturan dasar */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F7FAF7;
+    color: #252D26;
+    line-height: 1.6;
+}
+
+/* Navbar */
+header {
+    background-color: #FFFFFF;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+header h2 {
+    color: #255B34;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: #255B34;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Konten */
+section {
+    padding: 65px 8%;
+}
+
+#beranda {
+    background-color: #EAF4E4;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#beranda h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.2;
+    max-width: 750px;
+    color: #255B34;
+}
+
+/* Tombol */
+#beranda a {
+    display: inline-block;
+    background-color: #255B34;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 15px;
+}
+
+#beranda a:hover {
+    background-color: #65A832;
+}
+
+/* Footer */
+footer {
+    background-color: #255B34;
+    color: white;
+    text-align: center;
+    padding: 24px;
+}
+
+/* Tampilan HP */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section {
+        padding: 40px 6%;
+    }
+}
+
+/* Katalog Produk */
+.produk-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.produk-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E4EAE2;
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 340px;
+    transition: transform 0.3s ease;
+}
+
+.produk-card:hover {
+    transform: translateY(-5px);
+}
+
+.produk-gambar {
+    height: 200px;
+    background-color: #D7F1A0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #255B34;
+}
+.produk-gambar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.produk-info {
+    padding: 24px;
+}
+
+.produk-info h3 {
+    color: #255B34;
+    margin-top: 0;
+}
+
+.produk-info span {
+    color: #667468;
+    font-size: 14px;
+}
+/* Menampilkan foto produk */
+.produk-gambar img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
